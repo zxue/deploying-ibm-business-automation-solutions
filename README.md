@@ -51,6 +51,14 @@ oc adm policy add-scc-to-user anyuid  -z ibm-cp4ba-anyuid -n ${NAMESPACE}
 ./cp4a-clusteradmin-setup.sh
 ```
 
+You will need Docker or Podman installed locally. For Podman on Mac, run the podman commands below.
+
+```
+#using podman. You will need to create a virtual environment on mac.
+podman machine init
+podman machine start
+```
+
 Make sure that you have IBM license key handy. Choose the options, as shown in the example below. Make a note of the storage classes, which will be used in the next step. Storage classes can also be found in OpenShift directly.
 
 ```
@@ -139,6 +147,7 @@ To monitor the deployment status, follow the Operator logs.
 For details, refer to the troubleshooting section in Knowledge Center here: 
 https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=automation-troubleshooting
 ```
+
 
 ## Acknowledgement
 
