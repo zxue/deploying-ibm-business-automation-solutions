@@ -401,6 +401,17 @@ One possible reason is that the service account permission is not granted proper
 oc adm policy add-scc-to-user anyuid \ -z ibm-cp4ba-anyuid -n ${NAMESPACE}
 ```
 
+### Slow performance issues
+
+The [starter deployment](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=deployment-system-requirements) requires 3 minimum worker nodes, whereas [small, medium or large deployments](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=pcmppd-system-requirements) require 8 or more worker nodes.
+
+Fix: Increase the number of worker nodes may help improve overall service performance.
+
+In scenarios where, for example, a CP4BA is deployed in the U.S. and developers are based in other regions like Asia Pacific, users may experience network latency, which can cause screen refresh intermittently and connection to server timeouts briefly. 
+
+One workaround is to provision end user or developer VMs in the same region where the CP4BA is deployed. Optionally, the VMs may be provisioned in the cloud region close to the user or developer. 
+
+
 ## Acknowledgement
 
 Thanks to my IBMers, Alex Cravalho and Matt Womack for their review and feedback.
