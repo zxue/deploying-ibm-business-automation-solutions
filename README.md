@@ -148,19 +148,25 @@ For details, refer to the troubleshooting section in Knowledge Center here:
 https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=automation-troubleshooting
 ```
 
-### Validate CP4BA deployment
+### Validate CP4BA starter deployment
 
 The overall CP4BA deployment experience has been improved tremendously by the IBM team. Depending on what capabilities you have selected, the deployment may take some time. To check the deployment status, follow the [steps](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=scripts-validating-your-starter-deployment) here.
 
 ```
 # cd cert-kubernetes/scripts
 
-export CP4BA_COMMON_SERVICES_NAMESPACE=cp4ba-starter
+# deployment instance name e.g. icp4adeploy
+oc get icp4acluster
+oc describe icp4acluster icp4adeploy -n ${NAMESPACE} 
+oc get ICP4ACluster icp4adeploy -o=jsonpath='{.status.components.baw}'
+oc get ICP4ACluster icp4adeploy -o=jsonpath='{.status.components.odm}'
+
+export CP4BA_COMMON_SERVICES_NAMESPACE=${NAMESPACE}
 ./cp4a-post-install.sh --precheck
 ./cp4a-post-install.sh --starterStatus
 ```
 
-You can find a sample output below.
+You can find a sample output for the starter deployment below.
 
 ```
 CP4BA Service Status - High level
@@ -221,7 +227,7 @@ adsCredentialsServiceService                :  NotInstalled
 adsDownloadServiceDeployment                :  NotInstalled
 adsDownloadServiceService                   :  NotInstalled
 adsFrontDeployment                          :  NotInstalled
-adsFrontZenIntegration                     :  NotInstalled
+adsFrontZenIntegration                      :  NotInstalled
 adsGitServiceService                        :  NotInstalled
 adsLtpaCreationJob                          :  NotInstalled
 adsMongoService                             :  NotInstalled
@@ -268,11 +274,28 @@ graphqlDeployment                           :  NotInstalled
 graphqlRoute                                :  NotInstalled
 graphqlService                              :  NotInstalled
 graphqlStorage                              :  NotInstalled
-##########################################################################################################
-End Time: Wed Feb 19 10:39:24 CST 2025
-CP4BA Service Completed in 28 seconds
-##########################################################################################################
 
+```
+
+### Find CP4BA admins and users
+
+A successful deployment creates several [admin user accounts](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=scripts-installing-capabilities-by-running-deployment-script). 
+You can log in to the CP4BA cluster in one of the options below.
+
+- Use OpenShift admin credentials: kubeadmin, provided password
+- Use BM provided credentials (cpadmin only): cpadmin and password. See command below.
+- Use Enterprise LDAP, cp4admin and password. The default user credentials are stored in the secret named "icp4adeploy-openldap-customldif".
+
+```
+# get cpadmin password
+oc -n <namespace> get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo
+```
+
+Many routes are created in OpenShift, two of which are of particular interest to us. One starts with "cp-console" and another with "cpd", as shown below.
+
+```
+https://cp-console-<cp4ba namespace>.apps.xxx.com/
+https://cpd-<cp4ba namespace>.apps.xxx.com
 ```
 
 ## Acknowledgement
