@@ -148,6 +148,132 @@ For details, refer to the troubleshooting section in Knowledge Center here:
 https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=automation-troubleshooting
 ```
 
+### Validate CP4BA deployment
+
+The overall CP4BA deployment experience has been improved tremendously by the IBM team. Depending on what capabilities you have selected, the deployment may take some time. To check the deployment status, follow the [steps](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=scripts-validating-your-starter-deployment) here.
+
+```
+# cd cert-kubernetes/scripts
+
+export CP4BA_COMMON_SERVICES_NAMESPACE=cp4ba-starter
+./cp4a-post-install.sh --precheck
+./cp4a-post-install.sh --starterStatus
+```
+
+You can find a sample output below.
+
+```
+CP4BA Service Status - High level
+################################################################
+CP4BA Version                               :  24.0.1 
+Project/Namespace                           :  cp4ba
+Zen Version                                 :  NotInstalled
+Message 1                                   :  Running reconciliation
+Message 2                                   :  
+Deployment Type                             :  Starter 
+Status Dump                                 :  /Users/benjamin/cp4ba/cert-kubernetes/scripts/logs/icp4adeploy-cp4ba-status-info.yaml
+
+CP4BA Service Status - Insights
+################################################################
+bai_deploy_status:                          :  NotInstalled
+insightsEngine:                             :  NotInstalled
+
+CP4BA Service Status - BA Studio
+################################################################
+service:                                    :  NotInstalled
+
+CP4BA Service Status - Task Manager 
+################################################################
+tmDeployment                                :  NotInstalled
+tmService                                   :  NotInstalled
+tmRoute                                     :  NotInstalled
+tmStorage                                   :  NotInstalled
+
+CP4BA Service Status - Navigator
+################################################################
+navigatorDeployment                         :  NotInstalled
+navigatorService                            :  NotInstalled
+navigatorStorage                            :  NotInstalled
+navigatorZenIntegration                     :  NotInstalled
+
+CP4BA Service Status - Workflow
+################################################################
+
+CP4BA Service Status - BAML
+################################################################
+bamlCustomResource                          :  NotInstalled
+
+CP4BA Service Status - PFS
+################################################################
+pfsDeployment                               :  NotInstalled
+pfsService                                  :  NotInstalled
+pfsZenIntegration                           :  NotInstalled
+
+CP4BA Service Status - Business Automation Application
+################################################################
+workspace-aae service                       :  NotInstalled
+pbk service                                 :  NotInstalled
+
+CP4BA Service Status - Automation Decision Services
+################################################################
+adsCredentialsServiceDeployment             :  NotInstalled
+adsCredentialsServiceService                :  NotInstalled
+adsDownloadServiceDeployment                :  NotInstalled
+adsDownloadServiceService                   :  NotInstalled
+adsFrontDeployment                          :  NotInstalled
+adsFrontZenIntegration                     :  NotInstalled
+adsGitServiceService                        :  NotInstalled
+adsLtpaCreationJob                          :  NotInstalled
+adsMongoService                             :  NotInstalled
+adsParsingServiceService                    :  NotInstalled
+adsRestApiService                           :  NotInstalled
+adsRuntimeBaiRegistrationJob                :  NotInstalled
+adsRunServiceService                        :  NotInstalled
+adsRuntimeBaiRegistrationJob                :  NotInstalled
+adsRuntimeServiceService                    :  NotInstalled
+
+CP4BA Service Status - Operational Decision Manager
+################################################################
+odmDecisionCenterDeployment                 :  NotInstalled
+odmDecisionCenterService                    :  NotInstalled
+odmDecisionCenterZenIntegration             :  NotInstalled
+odmDecisionRunnerDeployment                 :  NotInstalled
+odmDecisionRunnerService                    :  NotInstalled
+odmDecisionRunnerZenIntegration             :  NotInstalled
+odmDecisionServerConsoleDeployment          :  NotInstalled
+odmDecisionServerConsoleService             :  NotInstalled
+odmDecisionServerConsoleZenIntegration      :  NotInstalled
+odmDecisionServerRuntimeDeployment          :  NotInstalled
+odmDecisionServerRuntimeService             :  NotInstalled
+odmDecisionServerRuntimeZenIntegration      :  NotInstalled
+
+CP4BA Service Status - Content
+################################################################
+cpeDeployment                               :  NotInstalled
+cpeJDBCDriver                               :  NotInstalled
+cpeRoute                                    :  NotInstalled
+cpeService                                  :  NotInstalled
+cpeStorage                                  :  NotInstalled
+cpeZenIntegration                           :  NotInstalled
+cmisDeployment                              :  NotInstalled
+cmisRoute                                   :  NotInstalled
+cmisService                                 :  NotInstalled
+cmisStorage                                 :  NotInstalled
+cmisZenIntegration                          :  NotInstalled
+ierDeployment                               :  NotInstalled
+ierRoute                                    :  NotInstalled
+ierService                                  :  NotInstalled
+ierStorageCheck                             :  NotInstalled
+graphqlDeployment                           :  NotInstalled
+graphqlRoute                                :  NotInstalled
+graphqlService                              :  NotInstalled
+graphqlStorage                              :  NotInstalled
+##########################################################################################################
+End Time: Wed Feb 19 10:39:24 CST 2025
+CP4BA Service Completed in 28 seconds
+##########################################################################################################
+
+```
 
 ## Acknowledgement
 
