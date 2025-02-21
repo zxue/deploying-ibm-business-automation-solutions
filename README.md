@@ -393,6 +393,14 @@ Another possible reason is that some PVCs are in pending, for example, `operator
 
 Fix: delete the PVCs and re-create them with the correct names in the CP4BA namespace.
 
+### The icp-4adeploy-openldap-deploy-xxx pod keeps crashing
+
+One possible reason is that the service account permission is not granted properly. For example, the "\" in the command line might have caused the problem. Removing the extra character appeared to be a fix to the issue. However, there may be other reasons that require further investigation.
+
+```
+oc adm policy add-scc-to-user anyuid \ -z ibm-cp4ba-anyuid -n ${NAMESPACE}
+```
+
 ## Acknowledgement
 
 Thanks to my IBMers, Alex Cravalho and Matt Womack for their review and feedback.
