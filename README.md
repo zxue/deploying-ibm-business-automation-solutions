@@ -298,6 +298,48 @@ https://cp-console-<cp4ba namespace>.apps.xxx.com/
 https://cpd-<cp4ba namespace>.apps.xxx.com
 ```
 
+## Deleting CP4BA deployment
+
+Check out the documentation on [Uninstalling capabilities from the OCP console](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=capabilities-uninstalling-from-ocp-console).
+
+To delete a testing CP4BA deployment manually, you can delete the CP4BA project in OpenShift. However, you may notice that the project stays in "Terminating" state. 
+
+Open the yaml file for the project. You see something like this.
+
+```
+message: 'Some resources are remaining: 
+authentications.operator.ibm.com has 1 resource instances, 
+clients.oidc.security.ibm.com has 1 resource instances, 
+operandbindinfos.operator.ibm.com has 3 resource instances, 
+operandrequests.operator.ibm.com has 8 resource instances, 
+zenextensions.zen.cpd.ibm.com has 1 resource instances'
+    - type: NamespaceFinalizersRemaining
+      status: 'True'
+      lastTransitionTime: '2025-02-19T18:15:57Z'
+      reason: SomeFinalizersRemain
+      message: 'Some content in the namespace has finalizers remaining: 
+authentication.operator.ibm.com in 1 resource instances, 
+client.oidc.security.ibm.com in 1 resource instances, 
+finalizer.bindinfo.ibm.com in 3 resource instances, 
+finalizer.request.ibm.com in 8 resource instances, 
+zenextension.zen.cpd.ibm.com/finalizer in 1 resource instances'
+```
+
+Go to CustomResourceDefinitions under Administration in OpenShift. Locate the CR resource for each, and click on the Instances tab. You will notice one or more resources listed in the CP4BA namespace. Click and open the yaml file for each resource, delete the following two lines and save the yaml file. 
+
+```
+  finalizers:
+    - finalizer.request.ibm.com
+```
+
+Once all resources are cleaned up, the CP4BA project is then deleted and a new one with the same or different namespace can be created.
+
+## Troubleshoot deployment issues
+
+Check out the [troubleshooting](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=installing-troubleshooting) documentation.
+
+
+
 ## Acknowledgement
 
 Thanks to my IBMers, Alex Cravalho and Matt Womack for their review and feedback.
