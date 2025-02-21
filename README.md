@@ -338,7 +338,60 @@ Once all resources are cleaned up, the CP4BA project is then deleted and a new o
 
 Check out the [troubleshooting](https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/24.0.1?topic=installing-troubleshooting) documentation.
 
+### Missing Enterprise LDAP login option
 
+When a CP4BA deployment is partially finished or fails, the login option is not available. One of several possible reasons is that the service account is missing or that permissions are not granted to the service account. 
+
+Fix: create the service account and apply permissions to it.
+
+### The CP4BA deployment fails
+
+One possible reason is that incorrect storage classes are used for rwx and rwo storages.
+
+Fix: delete the project and re-deploy it with the correct options, including the right storage classes.
+
+### Some PVCs are in pending state in OpenShift
+
+One possible reason is that image registry storage is not configured, for example, in a VMware environment. Follow the [documentation](https://docs.openshift.com/container-platform/4.15/registry/configuring_registry_storage/configuring-registry-storage-vsphere.html) to configure the storage.
+
+- Run the command line tocChange managementState Image Registry Operator configuration from Removed to Managed.
+```
+oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState":"Managed"}}'
+```
+
+- Run the commandline to modify the configuration
+```
+oc edit configs.imageregistry.operator.openshift.io
+```
+
+Update the storage spec as follows and save the change.
+```
+storage:
+  pvc:
+    claim: 
+```
+
+- Check the pvc for image registry operator. If it is in pending, re-create it with the correct storage. See one example below.
+
+```
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: image-registry-storage
+  namespace: openshift-image-registry
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: ocs-external-storagecluster-cephfs
+  volumeMode: Filesystem
+```
+
+Another possible reason is that some PVCs are in pending, for example, `operator-shared-pvc`(1 GiB, rwx) and `opensearch-ib-6fb9-es-server-snap` (5 GiB, rwx).
+
+Fix: delete the PVCs and re-create them with the correct names in the CP4BA namespace.
 
 ## Acknowledgement
 
